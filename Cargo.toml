@@ -1,0 +1,9 @@
+[package]
+name = "dedup"
+version = "0.1.0"
+authors = ["Angus Campbell <angus.b.e.campbell@gmail.com>"]
+
+[dependencies]
+crypto-hash = "0.3.1"
+walkdir = "2"
+clap="2.31.2"
