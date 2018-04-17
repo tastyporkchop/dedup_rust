@@ -89,7 +89,7 @@ impl FileHashInfo {
 
         // hasher and buffer
         let mut hasher = Hasher::new(Algorithm::MD5);
-        let mut buf: Vec<u8> = vec![0; 4048];
+        let mut buf: Vec<u8> = vec![0; 4096];
 
         loop {
             let n = file.read(&mut buf[..])?;
