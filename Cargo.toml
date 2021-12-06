@@ -1,9 +1,10 @@
 [package]
 name = "dedup"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Angus Campbell <angus.b.e.campbell@gmail.com>"]
 
 [dependencies]
 crypto-hash = "0.3.1"
 walkdir = "2"
-clap="2.31.2"
+clap="2.33"
+threadpool="1.7.1"

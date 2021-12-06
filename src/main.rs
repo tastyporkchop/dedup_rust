@@ -1,15 +1,18 @@
-use std::collections::HashMap;
+extern crate clap;
+extern crate crypto_hash;
+extern crate threadpool;
+extern crate walkdir;
+
+use std::collections::{HashMap, BTreeMap};
 use std::fs::File;
-use std::error::Error;
 use std::io::{stdout, Read, Write};
 
 use crypto_hash::{Algorithm, Hasher};
 use walkdir::WalkDir;
 use clap::{App, Arg};
 
-extern crate clap;
-extern crate crypto_hash;
-extern crate walkdir;
+//mod hash_pool;
+//use hash_pool::HashPool;
 
 /// FileSizeInfo wraps a [`HashMap`] that maps the size of the files to
 /// a FileHashInfo object that collects hashes of files that have the same size.
@@ -17,14 +20,14 @@ extern crate walkdir;
 /// [`HashMap`]:https://doc.rust-lang.org/std/collections/struct.HashMap.html
 #[derive(Debug)]
 struct FileSizeInfo {
-    size_map: HashMap<u64, FileHashInfo>,
+    size_map: BTreeMap<u64, FileHashInfo>,
 }
 
 impl FileSizeInfo {
     /// Create a new FileSizeInfo
     pub fn new() -> FileSizeInfo {
         FileSizeInfo {
-            size_map: HashMap::new(),
+            size_map: BTreeMap::new(),
         }
     }
 
@@ -71,7 +74,7 @@ impl FileHashInfo {
         // read file and digest it
         let hash = match FileHashInfo::get_hash(&path) {
             Err(e) => {
-                println!("trouble readin file:{} because:{}", path, e.description());
+                println!("trouble readin file:{} because:{}", path, e.to_string());
                 return;
             }
             Ok(h) => h,
@@ -109,8 +112,11 @@ impl FileHashInfo {
 }
 
 fn do_work(base_path: &str, output: &str) {
+
     // open output if necessary
     // if we can't open the file then bail
+    //
+    //let _: HashPool<&str> = HashPool::new();
 
     let mut file_size_info = FileSizeInfo::new();
     for entry in WalkDir::new(base_path) {
